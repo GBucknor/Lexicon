@@ -40,8 +40,13 @@ class WGViewController: UIViewController {
                 let jsonData = try? JSONSerialization.jsonObject(with: data, options: .mutableContainers)
                     as! [String : Any] {
                 let resultArray = jsonData["results"] as! [NSDictionary]
+                let group = DispatchGroup()
+                group.enter()
                 DispatchQueue.main.async {
                     self.catArray = resultArray
+                    group.leave()
+                }
+                group.notify(queue: .main) {
                     self.performSegue(withIdentifier: "WGGameSegue", sender: self)
                 }
             } else {
@@ -50,6 +55,10 @@ class WGViewController: UIViewController {
             }
         }).resume()
     }
+    
+//    private func getAlert() -> UIAlertController {
+//        //
+//    }
     
     @IBAction func returnToMenuPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
