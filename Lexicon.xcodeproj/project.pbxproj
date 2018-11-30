@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D82DC21321B1BFCC0024FB0F /* HexColorHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82DC21221B1BFCC0024FB0F /* HexColorHelper.swift */; };
+		D82DC21521B1C8070024FB0F /* SpinnerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82DC21421B1C8070024FB0F /* SpinnerExtension.swift */; };
+		D8C0C36721B2041E0032CEFA /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8C0C36621B2041E0032CEFA /* MasterViewController.swift */; };
 		FC2EEC7B2182C8A600608FA8 /* WGGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2EEC7A2182C8A600608FA8 /* WGGameViewController.swift */; };
 		FCD1069D21699CAE00F522EA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD1069C21699CAE00F522EA /* AppDelegate.swift */; };
 		FCD1069F21699CAE00F522EA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD1069E21699CAE00F522EA /* ViewController.swift */; };
@@ -36,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D82DC21221B1BFCC0024FB0F /* HexColorHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexColorHelper.swift; sourceTree = "<group>"; };
+		D82DC21421B1C8070024FB0F /* SpinnerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerExtension.swift; sourceTree = "<group>"; };
+		D8C0C36621B2041E0032CEFA /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		FC2EEC7A2182C8A600608FA8 /* WGGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WGGameViewController.swift; sourceTree = "<group>"; };
 		FCD1069921699CAE00F522EA /* Lexicon.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lexicon.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCD1069C21699CAE00F522EA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +115,9 @@
 				FCD106A821699CAF00F522EA /* Info.plist */,
 				FCD106CF2169BE9800F522EA /* WGViewController.swift */,
 				FC2EEC7A2182C8A600608FA8 /* WGGameViewController.swift */,
+				D82DC21221B1BFCC0024FB0F /* HexColorHelper.swift */,
+				D82DC21421B1C8070024FB0F /* SpinnerExtension.swift */,
+				D8C0C36621B2041E0032CEFA /* MasterViewController.swift */,
 			);
 			path = Lexicon;
 			sourceTree = "<group>";
@@ -262,9 +271,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D82DC21321B1BFCC0024FB0F /* HexColorHelper.swift in Sources */,
+				D82DC21521B1C8070024FB0F /* SpinnerExtension.swift in Sources */,
 				FC2EEC7B2182C8A600608FA8 /* WGGameViewController.swift in Sources */,
 				FCD1069F21699CAE00F522EA /* ViewController.swift in Sources */,
 				FCD106D02169BE9800F522EA /* WGViewController.swift in Sources */,
+				D8C0C36721B2041E0032CEFA /* MasterViewController.swift in Sources */,
 				FCD1069D21699CAE00F522EA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class WGGameViewController: UIViewController {
+class WGGameViewController: MasterViewController {
     
     // Array of words from the current category.
     var wordArray: [NSDictionary] = []
@@ -20,13 +20,18 @@ class WGGameViewController: UIViewController {
     
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var mysteryDescription: UILabel!
+    @IBOutlet var gameBtns: [UIButton]!
     @IBOutlet weak var guessArea: UITextField!
     @IBOutlet weak var categoryTitle: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
+        self.view.backgroundColor = colorWithHexString(hexString: "#4281A4")
+        self.hideKeyboardWhenTappedAround()
+        for button in gameBtns {
+            button.layer.cornerRadius = 15
+        }
         categoryTitle.text = category
         guessArea.spellCheckingType = UITextSpellCheckingType.no
         setUpGuessArea()
@@ -54,13 +59,56 @@ class WGGameViewController: UIViewController {
     // Sets up the ui of the game.
     private func setUpGuessArea() {
         seconds = 15
-        timerLabel.textColor = UIColor.blue
+        timerLabel.textColor = UIColor.white
         timerLabel.text = "\(seconds)"
         word = getRandomWord()
         print(word)
         setDescription()
         guessArea.text = ""
         runTimer()
+    }
+    
+    // Picks a random word from the currently set category array.
+    private func getRandomWord() -> String {
+        var temp = wordArray[Int.random(in: 0 ..< wordArray.count)].value(forKey: "word") as! String
+        while (temp.contains(",")) {
+            temp = wordArray[Int.random(in: 0 ..< wordArray.count)].value(forKey: "word") as! String
+        }
+        return temp
+    }
+    
+    // Shakes the textfield
+    private func shakeAnimation() {
+        let animation = CABasicAnimation(keyPath: "position")
+        animation.duration = 0.05
+        animation.repeatCount = 2
+        animation.autoreverses = true
+        animation.fromValue = NSValue(cgPoint: CGPoint(x: guessArea.center.x - 10, y: guessArea.center.y))
+        animation.toValue = NSValue(cgPoint: CGPoint(x: guessArea.center.x + 10, y: guessArea.center.y))
+        guessArea.layer.add(animation, forKey: "position")
+        guessArea.text = ""
+    }
+    
+    // Closes the current view
+    @IBAction func quitPressed(_ sender: Any) {
+        timer.invalidate()
+        dismiss(animated: true, completion: nil)
+    }
+    
+    // Checks guesses
+    @IBAction func checkGuess(_ sender: Any) {
+        if ((guessArea.text?.lowercased().elementsEqual(word))!) {
+            timer.invalidate()
+            setUpGuessArea()
+            currentScore += 1
+            let score = UserDefaults.standard.integer(forKey: "score")
+            if currentScore > score {
+                UserDefaults.standard.set(score + 1, forKey: "score")
+            }
+            showToast(message: "+1")
+        } else {
+            shakeAnimation()
+        }
     }
     
     /* API REQUEST FUNCTIONS */
@@ -112,49 +160,6 @@ class WGGameViewController: UIViewController {
     }
     
     /* END API REQUEST FUNCTIONS (thanks Oxford) */
-    
-    // Picks a random word from the currently set category array.
-    private func getRandomWord() -> String {
-        var temp = wordArray[Int.random(in: 0 ..< wordArray.count)].value(forKey: "word") as! String
-        while (temp.contains(",")) {
-            temp = wordArray[Int.random(in: 0 ..< wordArray.count)].value(forKey: "word") as! String
-        }
-        return temp
-    }
-    
-    // Shakes the textfield
-    private func shakeAnimation() {
-        let animation = CABasicAnimation(keyPath: "position")
-        animation.duration = 0.05
-        animation.repeatCount = 2
-        animation.autoreverses = true
-        animation.fromValue = NSValue(cgPoint: CGPoint(x: guessArea.center.x - 10, y: guessArea.center.y))
-        animation.toValue = NSValue(cgPoint: CGPoint(x: guessArea.center.x + 10, y: guessArea.center.y))
-        guessArea.layer.add(animation, forKey: "position")
-        guessArea.text = ""
-    }
-    
-    // Closes the current view
-    @IBAction func quitPressed(_ sender: Any) {
-        timer.invalidate()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    // Checks guesses
-    @IBAction func checkGuess(_ sender: Any) {
-        if ((guessArea.text?.lowercased().elementsEqual(word))!) {
-            timer.invalidate()
-            setUpGuessArea()
-            currentScore += 1
-            let score = UserDefaults.standard.integer(forKey: "score")
-            if currentScore > score {
-                UserDefaults.standard.set(score + 1, forKey: "score")
-            }
-            showToast(message: "+1")
-        } else {
-            shakeAnimation()
-        }
-    }
 }
 
 // Converts certain special characters to rfc3986 for api calls.
@@ -194,5 +199,18 @@ extension UIViewController {
         }, completion: {(isCompleted) in
             toastLabel.removeFromSuperview()
         })
+    }
+}
+
+// Hides the keyboard when other areas of the screen are tapped.
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        view.addGestureRecognizer(tap)
+        
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }

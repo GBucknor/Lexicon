@@ -8,15 +8,20 @@
 
 import UIKit
 
-class WGViewController: UIViewController {
+class WGViewController: MasterViewController {
     
+    @IBOutlet var catButtons: [UIButton]!
     var catArray: [NSDictionary] = []
     var catTitle: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = colorWithHexString(hexString: "#4281A4")
+        for button in self.catButtons {
+            button.layer.cornerRadius = 10
+        }
     }
-
+    
     @IBAction func getWordList(_ sender: UIButton) {
         let senderTitle = (sender.titleLabel?.text)!
         let appId = "52a4a509"
@@ -33,6 +38,7 @@ class WGViewController: UIViewController {
     }
     
     private func download(_ request : URLRequest) {
+        let sv = UIViewController.displaySpinner(onView: self.view)
         let session = URLSession.shared
         _ = session.dataTask(with: request, completionHandler: { data, response, error in
             if let _ = response,
@@ -47,6 +53,7 @@ class WGViewController: UIViewController {
                     group.leave()
                 }
                 group.notify(queue: .main) {
+                    UIViewController.removeSpinner(spinner: sv)
                     self.performSegue(withIdentifier: "WGGameSegue", sender: self)
                 }
             } else {
@@ -55,10 +62,6 @@ class WGViewController: UIViewController {
             }
         }).resume()
     }
-    
-//    private func getAlert() -> UIAlertController {
-//        //
-//    }
     
     @IBAction func returnToMenuPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
