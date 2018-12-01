@@ -33,6 +33,14 @@ class ViewController: MasterViewController {
             UserDefaults.standard.set(0, forKey: "score")
         } else if score as! Int != 0 {
             scoreLabel.text = "High score: " + (String(score as! Int)) + "pts!"
+            let pulseAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
+            pulseAnimation.duration = 1
+            pulseAnimation.fromValue = 0
+            pulseAnimation.toValue = 1
+            pulseAnimation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
+            pulseAnimation.autoreverses = true
+            pulseAnimation.repeatCount = .greatestFiniteMagnitude
+            scoreLabel.layer.add(pulseAnimation, forKey: "animateOpacity")
         }
     }
 

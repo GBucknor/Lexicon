@@ -14,7 +14,7 @@ class WGGameViewController: MasterViewController {
     var wordArray: [NSDictionary] = []
     var category: String = ""
     var word: String = ""
-    var seconds: Int = 15
+    var seconds: Int = 25
     var timer: Timer = Timer()
     var currentScore: Int = 0
     
