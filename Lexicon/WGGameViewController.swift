@@ -51,6 +51,7 @@ class WGGameViewController: MasterViewController {
             timerLabel.textColor = UIColor.red
         }
         if (seconds <= 0) {
+            showToast(word, 150, 35, 75, 100, duration: 3.0)
             timer.invalidate()
             setUpGuessArea()
         }
@@ -58,7 +59,7 @@ class WGGameViewController: MasterViewController {
     
     // Sets up the ui of the game.
     private func setUpGuessArea() {
-        seconds = 15
+        seconds = 25
         timerLabel.textColor = UIColor.white
         timerLabel.text = "\(seconds)"
         word = getRandomWord()
@@ -105,7 +106,7 @@ class WGGameViewController: MasterViewController {
             if currentScore > score {
                 UserDefaults.standard.set(score + 1, forKey: "score")
             }
-            showToast(message: "+1")
+            showToast("+1", 50, 35, 25, 100, duration: 2.0)
         } else {
             shakeAnimation()
         }
@@ -174,12 +175,17 @@ extension String {
 
 // Displays toasts that slide upwards and then disappear.
 extension UIViewController {
-    func showToast(message: String) {
+    func showToast(_ message: String,
+                   _ width: CGFloat,
+                   _ height: CGFloat,
+                   _ x: CGFloat,
+                   _ y: CGFloat,
+                   duration: TimeInterval) {
         let toastLabel = UILabel(frame: CGRect(
-            x: self.view.frame.size.width/2 - 25,
-            y: self.view.frame.size.height-100,
-            width: 50,
-            height: 35))
+            x: self.view.frame.size.width/2 - x,
+            y: self.view.frame.size.height - y,
+            width: width,
+            height: height))
         toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         toastLabel.textColor = UIColor.white
         toastLabel.textAlignment = .center
@@ -189,7 +195,7 @@ extension UIViewController {
         toastLabel.layer.cornerRadius = 10
         toastLabel.clipsToBounds = true
         self.view.addSubview(toastLabel)
-        UIView.animate(withDuration: 2.0,
+        UIView.animate(withDuration: duration,
                        delay: 0.1,
                        options: .curveEaseOut,
                        animations: {
